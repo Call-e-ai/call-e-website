@@ -1,232 +1,174 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Call-e: AI Sales Assistant</title>
-<meta name="description" content="Call-e: The AI-powered sales assistant transforming sales calls with real-time insights.">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Call-e | Autonomous AI Voice Infrastructure</title>
 
-<!-- Tailwind CSS CDN -->
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<!-- AOS Library for scroll animations -->
-<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-
-<style>
-  body { font-family: 'Inter', sans-serif; background: #f7f9fc; margin:0; padding:0; overflow-x:hidden;}
-  h1,h2,h3 { scroll-margin-top: 100px; }
-
-  /* Hero gradient animation */
-  @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-  .animated-gradient {
-    background: linear-gradient(270deg, #4f46e5, #9333ea, #ec4899);
-    background-size: 600% 600%;
-    animation: gradientBG 15s ease infinite;
-  }
-
-  /* Floating circles */
-  .float { animation: float 6s ease-in-out infinite; position: absolute; border-radius: 50%; opacity: 0.6; }
-  @keyframes float { 0%,100% { transform: translateY(0px);} 50% { transform: translateY(-20px);} }
-
-  /* Floating dashboard animation */
-  @keyframes dashboardFloat {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-10px) scale(1.02); }
-  }
-  .dashboard-animate { animation: dashboardFloat 6s ease-in-out infinite; }
-
-  /* Sparkle animation */
-  @keyframes sparkle { 0%, 100% { opacity: 0.3; transform: scale(1);} 50% { opacity: 1; transform: scale(1.2);} }
-  .sparkle { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.8); width: 6px; height: 6px; animation: sparkle 2s infinite alternate; }
-
-  /* Feature card hover animations */
-  .feature-card { transition: transform 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease; }
-  .feature-card:hover { transform: translateY(-10px) scale(1.03); box-shadow: 0 25px 40px rgba(0,0,0,0.15); background-color: #f0f4ff; }
-
-  /* Particle canvas */
-  #particle-canvas { position:absolute; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:0; }
-</style>
-</head>
-<body class="scroll-smooth text-gray-900">
-
-<script>
-  AOS.init({ duration: 1000, once: true });
-</script>
-
-<!-- Particle Animation Script -->
-<canvas id="particle-canvas"></canvas>
-<script>
-const canvas = document.getElementById('particle-canvas');
-const ctx = canvas.getContext('2d');
-let particlesArray;
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-class Particle {
-  constructor() {
-    this.x = Math.random()*canvas.width;
-    this.y = Math.random()*canvas.height;
-    this.size = Math.random()*3 + 1;
-    this.speedX = (Math.random()-0.5)*0.5;
-    this.speedY = (Math.random()-0.5)*0.5;
-  }
-  update() { this.x += this.speedX; this.y += this.speedY; if(this.x>canvas.width)this.x=0; if(this.x<0)this.x=canvas.width; if(this.y>canvas.height)this.y=0; if(this.y<0)this.y=canvas.height; }
-  draw() { ctx.fillStyle = "rgba(255,255,255,0.3)"; ctx.beginPath(); ctx.arc(this.x,this.y,this.size,0,Math.PI*2); ctx.fill(); }
-}
-
-function initParticles(){
-  particlesArray=[];
-  for(let i=0;i<80;i++){particlesArray.push(new Particle());}
-}
-function connectParticles(){
-  for(let a=0;a<particlesArray.length;a++){
-    for(let b=a;b<particlesArray.length;b++){
-      let dx=particlesArray[a].x-particlesArray[b].x;
-      let dy=particlesArray[a].y-particlesArray[b].y;
-      let distance=Math.sqrt(dx*dx+dy*dy);
-      if(distance<120){
-        ctx.strokeStyle="rgba(255,255,255,0.05)";
-        ctx.lineWidth=1;
-        ctx.beginPath();
-        ctx.moveTo(particlesArray[a].x,particlesArray[a].y);
-        ctx.lineTo(particlesArray[b].x,particlesArray[b].y);
-        ctx.stroke();
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { inter: ['Inter', 'sans-serif'] },
+          keyframes: {
+            glow: { '0%,100%': { opacity: '0.6' }, '50%': { opacity: '1' } },
+            float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-18px)' } }
+          },
+          animation: {
+            glow: 'glow 6s ease-in-out infinite',
+            float: 'float 8s ease-in-out infinite'
+          }
+        }
       }
     }
-  }
-}
+  </script>
 
-function animateParticles(){
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particlesArray.forEach(p => {p.update(); p.draw();});
-  connectParticles();
-  requestAnimationFrame(animateParticles);
-}
-window.addEventListener('resize',function(){canvas.width=window.innerWidth; canvas.height=window.innerHeight; initParticles();});
-initParticles();
-animateParticles();
-</script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
 
-<!-- Navigation -->
-<header class="fixed top-0 left-0 w-full bg-white shadow z-50" data-aos="fade-down">
-  <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-    <img src="https://i.ibb.co/6b9B2hR/call-e-logo.png" alt="Call-e Logo" class="h-10">
-    <nav class="space-x-6 hidden md:flex font-medium text-gray-700">
-      <a href="#hero" class="hover:text-purple-600 transition">Home</a>
-      <a href="#features" class="hover:text-purple-600 transition">Features</a>
-      <a href="#dashboard" class="hover:text-purple-600 transition">Dashboard</a>
-      <a href="#request-demo" class="hover:text-purple-600 transition">Demo</a>
-      <a href="#about" class="hover:text-purple-600 transition">About</a>
-      <a href="#pricing" class="hover:text-purple-600 transition">Pricing</a>
-    </nav>
-  </div>
+    .mesh {
+      background:
+        radial-gradient(circle at 10% 20%, rgba(139,92,246,0.18), transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(56,189,248,0.18), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(16,185,129,0.12), transparent 45%);
+      animation: meshMove 22s ease-in-out infinite alternate;
+    }
+    @keyframes meshMove {
+      from { background-position: 0% 0%, 100% 0%, 50% 100%; }
+      to   { background-position: 12% 18%, 88% 12%, 60% 85%; }
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.08);
+      backdrop-filter: blur(28px);
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .glass:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(139,92,246,0.3); }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    .arch:hover .arch-detail { opacity: 1; transform: translateY(0); }
+    .arch-detail { opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
+
+    .accent-purple { color: #A855F7; }
+    .accent-green { color: #10B981; }
+
+  </style>
+</head>
+
+<body class="bg-[#05070f] text-white mesh">
+
+<header class="fixed w-full z-50">
+  <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between">
+    <span class="font-bold">Call-e</span>
+    <div class="hidden md:flex gap-8 text-sm text-gray-300">
+      <a href="#architecture">Architecture</a>
+      <a href="#cases">Case Studies</a>
+      <a href="#metrics">Metrics</a>
+      <a href="#demo">Request Demo</a>
+      <a href="https://www.linkedin.com/company/call-e-ai/" target="_blank">LinkedIn</a>
+    </div>
+  </nav>
 </header>
 
-<!-- Hero Section -->
-<section id="hero" class="relative animated-gradient text-white pt-24 overflow-hidden" data-aos="fade-in">
-  <!-- Particle canvas is behind content -->
-  <div class="max-w-6xl mx-auto py-32 px-6 grid md:grid-cols-2 gap-12 items-center relative z-10">
-    <div class="text-center md:text-left space-y-6">
-      <h1 class="text-5xl md:text-6xl font-bold drop-shadow-lg" data-aos="fade-right">Call-e: The AI Sales Assistant</h1>
-      <p class="text-xl md:text-2xl max-w-xl drop-shadow-md" data-aos="fade-right" data-aos-delay="200">Close more deals with real-time AI guidance, advanced call analytics, and seamless CRM integration. Turn every sales call into actionable insights.</p>
-      <a href="#request-demo" class="px-8 py-4 rounded-lg font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 transition transform hover:scale-105 inline-block drop-shadow-lg" data-aos="fade-right" data-aos-delay="400">Request Demo</a>
+<section class="min-h-screen flex items-center pt-32">
+  <div class="max-w-6xl mx-auto px-6 text-center reveal">
+    <h1 class="text-6xl font-extrabold">AI Voice Infrastructure<br/>That Replaces Manual Calling</h1>
+    <p class="mt-8 text-gray-300 max-w-2xl mx-auto">Enterprise-grade autonomous voice AI that handles calls, ensures compliance, and delivers measurable business outcomes.</p>
+    <div class="mt-10 flex justify-center gap-4">
+      <a href="#demo" class="px-8 py-4 rounded-xl bg-white text-black font-semibold">Book Demo</a>
+      <a href="#architecture" class="px-8 py-4 rounded-xl glass">See Architecture</a>
     </div>
+  </div>
+</section>
 
-    <!-- Hero Dashboard with Floating Animation -->
-    <div class="relative rounded-3xl overflow-hidden shadow-2xl dashboard-animate" data-aos="fade-left">
-      <img src="/mnt/data/A_GIF_features_an_animated_dashboard_interface_sho.png" class="w-full h-auto object-cover rounded-3xl" alt="Generated AI Dashboard">
-      <!-- Sparkles -->
-      <div class="sparkle" style="top:10%; left:20%; animation-delay:0s;"></div>
-      <div class="sparkle" style="top:30%; left:70%; animation-delay:0.5s;"></div>
-      <div class="sparkle" style="top:60%; left:40%; animation-delay:1s;"></div>
-      <div class="sparkle" style="top:80%; left:80%; animation-delay:1.5s;"></div>
-      <div class="absolute top-6 left-6 bg-white bg-opacity-80 p-4 rounded-lg shadow">
-        <h3 class="font-semibold text-gray-800">Live Call Insights</h3>
-        <p class="text-sm text-gray-700 mt-1">Keyword tracking, talk ratio, and AI suggestions in real time.</p>
+<!-- ARCHITECTURE -->
+<section id="architecture" class="py-40 bg-white/5">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-4xl font-bold mb-24 reveal">How Call-e Works</h2>
+    <div class="grid md:grid-cols-4 gap-10 text-center">
+      <div class="glass p-8 rounded-3xl arch reveal">
+        <h3 class="accent-purple font-semibold mb-2">Call Initiation</h3>
+        <div class="arch-detail mt-4 text-gray-300">Inbound or outbound calls seamlessly routed via existing telephony or SIP integrations.</div>
+      </div>
+      <div class="glass p-8 rounded-3xl arch reveal">
+        <h3 class="accent-purple font-semibold mb-2">Conversation Engine</h3>
+        <div class="arch-detail mt-4 text-gray-300">Real-time speech-to-intent, contextual memory, and adaptive dialogue for consistent engagement.</div>
+      </div>
+      <div class="glass p-8 rounded-3xl arch reveal">
+        <h3 class="accent-purple font-semibold mb-2">Policy & Decision Layer</h3>
+        <div class="arch-detail mt-4 text-gray-300">Custom rules, compliance logic, and escalation paths enforce safe and predictable interactions.</div>
+      </div>
+      <div class="glass p-8 rounded-3xl arch reveal">
+        <h3 class="accent-purple font-semibold mb-2">Outcomes & Insight</h3>
+        <div class="arch-detail mt-4 text-gray-300">Automated analytics, resolution confidence scores, and next-best actions for teams and management.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- Features Section -->
-<section id="features" class="py-20 max-w-6xl mx-auto px-6">
-  <h2 class="text-4xl font-bold text-center mb-12 text-gray-900" data-aos="fade-up">Category-Defining Features</h2>
-  <div class="grid md:grid-cols-3 gap-10">
-    <div class="feature-card p-8 bg-white rounded-3xl shadow-2xl relative overflow-hidden" data-aos="fade-up" data-aos-delay="100">
-      <img src="https://via.placeholder.com/400x200?text=Feature+1" class="absolute inset-0 w-full h-full object-cover rounded-3xl opacity-20" alt="">
-      <h3 class="text-xl font-semibold mb-4 relative z-10">Real-Time AI Guidance</h3>
-      <p class="relative z-10">Actionable insights delivered live during calls to boost engagement and close rates.</p>
-    </div>
-    <div class="feature-card p-8 bg-white rounded-3xl shadow-2xl relative overflow-hidden" data-aos="fade-up" data-aos-delay="200">
-      <img src="https://via.placeholder.com/400x200?text=Feature+2" class="absolute inset-0 w-full h-full object-cover rounded-3xl opacity-20" alt="">
-      <h3 class="text-xl font-semibold mb-4 relative z-10">Advanced Call Analytics</h3>
-      <p class="relative z-10">Track keywords, trends, and team performance automatically with easy-to-read dashboards.</p>
-    </div>
-    <div class="feature-card p-8 bg-white rounded-3xl shadow-2xl relative overflow-hidden" data-aos="fade-up" data-aos-delay="300">
-      <img src="https://via.placeholder.com/400x200?text=Feature+3" class="absolute inset-0 w-full h-full object-cover rounded-3xl opacity-20" alt="">
-      <h3 class="text-xl font-semibold mb-4 relative z-10">Seamless CRM Integration</h3>
-      <p class="relative z-10">Connect to your CRM and other sales tools effortlessly, while Call-e does the analysis.</p>
+<!-- METRICS -->
+<section id="metrics" class="py-40">
+  <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-center reveal">
+    <div><p class="text-5xl font-bold accent-green">1M+</p><p class="text-gray-300 mt-2">Calls handled</p></div>
+    <div><p class="text-5xl font-bold accent-green">92%</p><p class="text-gray-300 mt-2">Resolution rate</p></div>
+    <div><p class="text-5xl font-bold accent-green">65%</p><p class="text-gray-300 mt-2">Cost reduction</p></div>
+  </div>
+</section>
+
+<!-- CASE STUDIES -->
+<section id="cases" class="py-40 bg-white/5">
+  <div class="max-w-7xl mx-auto px-6">
+    <h2 class="text-4xl font-bold mb-20 reveal">Where Call-e Delivers ROI</h2>
+    <div class="grid md:grid-cols-3 gap-10">
+      <div class="glass p-10 rounded-3xl reveal">
+        <h3 class="font-semibold mb-2 accent-purple">Collections</h3>
+        <p class="text-gray-300">Automated debtor engagement at scale, reducing manual intervention while ensuring compliance with policies.</p>
+      </div>
+      <div class="glass p-10 rounded-3xl reveal">
+        <h3 class="font-semibold mb-2 accent-purple">Enterprise Sales</h3>
+        <p class="text-gray-300">Qualification, follow-ups, and pipeline nurturing without SDR overhead, powered by autonomous calls.</p>
+      </div>
+      <div class="glass p-10 rounded-3xl reveal">
+        <h3 class="font-semibold mb-2 accent-purple">Public Sector</h3>
+        <p class="text-gray-300">High-volume citizen outreach with auditability, governance, and measurable impact.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- Request Demo Section -->
-<section id="request-demo" class="py-20 bg-gray-100" data-aos="fade-up">
-  <div class="max-w-3xl mx-auto text-center space-y-6">
-    <h2 class="text-3xl font-bold">Request a Demo</h2>
-    <p>Experience Call-e in action. Fill out the form below and we’ll get in touch directly.</p>
-    <form action="https://formspree.io/f/mpqqnlbw" method="POST" class="grid grid-cols-1 gap-6">
-      <input type="text" name="name" placeholder="Full Name" class="p-3 border rounded-lg" required>
-      <input type="email" name="email" placeholder="Email Address" class="p-3 border rounded-lg" required>
-      <input type="text" name="company" placeholder="Company" class="p-3 border rounded-lg">
-      <textarea name="message" placeholder="Message / Questions" class="p-3 border rounded-lg" rows="4"></textarea>
-      <button type="submit" class="py-3 rounded-lg font-semibold text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-pink-500 hover:to-purple-500 transition transform hover:scale-105">Submit Request</button>
+<!-- DEMO CTA -->
+<section id="demo" class="py-40">
+  <div class="max-w-xl mx-auto px-6 glass rounded-3xl p-12 reveal">
+    <h2 class="text-3xl font-bold mb-6">Request a Live Demo</h2>
+    <p class="text-gray-300 mb-8">See Call-e in action and understand how autonomous AI calling transforms operations.</p>
+    <form action="https://formspree.io/f/mpqqnlbw" method="POST" class="space-y-6">
+      <input class="w-full px-4 py-3 rounded-xl bg-black/30 border border-white/10" name="name" placeholder="Full Name" required />
+      <input class="w-full px-4 py-3 rounded-xl bg-black/30 border border-white/10" type="email" name="email" placeholder="Work Email" required />
+      <textarea class="w-full px-4 py-3 rounded-xl bg-black/30 border border-white/10" name="message" rows="4" placeholder="Describe your call volumes"></textarea>
+      <button class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-500 to-cyan-400 font-semibold hover:from-cyan-400 hover:to-purple-500 transition-all">Book Demo</button>
     </form>
-    <p class="text-sm text-gray-600">Requests will be sent to: <strong>bradley.schouw@gmail.com</strong></p>
   </div>
 </section>
 
-<!-- About Section -->
-<section id="about" class="py-20 max-w-4xl mx-auto px-6 text-center" data-aos="fade-up">
-  <h2 class="text-3xl font-bold mb-6">About Call-e</h2>
-  <p class="text-lg">Call-e is the category-defining AI assistant that empowers sales teams to win. Real-time guidance, advanced analytics, and seamless CRM integration transform sales calls into actionable insights and higher close rates.</p>
-</section>
+<footer class="py-10 text-center text-gray-400 text-sm">© 2026 Call-e</footer>
 
-<!-- Pricing Section -->
-<section id="pricing" class="py-20 bg-gray-50" data-aos="fade-up">
-  <div class="max-w-6xl mx-auto px-6 text-center space-y-8">
-    <h2 class="text-4xl font-bold mb-12">Pricing Plans</h2>
-    <div class="grid md:grid-cols-3 gap-8">
-      <div class="bg-white rounded-3xl shadow-2xl p-8 hover:scale-105 transition">
-        <h3 class="text-2xl font-semibold mb-4">Starter</h3>
-        <p class="text-gray-600 mb-4">$49/month</p>
-      </div>
-      <div class="bg-white rounded-3xl shadow-2xl p-8 hover:scale-105 transition border-2 border-purple-600">
-        <h3 class="text-2xl font-semibold mb-4">Pro</h3>
-        <p class="text-gray-600 mb-4">$149/month</p>
-      </div>
-      <div class="bg-white rounded-3xl shadow-2xl p-8 hover:scale-105 transition">
-        <h3 class="text-2xl font-semibold mb-4">Enterprise</h3>
-        <p class="text-gray-600 mb-4">Custom pricing</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer class="bg-gray-900 text-white py-8 mt-12" data-aos="fade-up">
-  <div class="max-w-6xl mx-auto px-6 text-center space-y-2">
-    <img src="https://i.ibb.co/6b9B2hR/call-e-logo.png" alt="Call-e Logo" class="h-10 mx-auto">
-    <p>© 2026 Call-e. All rights reserved.</p>
-    <p>Follow us on <a href="https://www.linkedin.com/company/call-e-ai/?viewAsMember=true" target="_blank" class="underline">LinkedIn</a></p>
-  </div>
-</footer>
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  window.addEventListener('scroll', () => {
+    const trigger = window.innerHeight * 0.85;
+    reveals.forEach(el => {
+      if (el.getBoundingClientRect().top < trigger) el.classList.add('active');
+    });
+  });
+</script>
 
 </body>
 </html>
