@@ -22,6 +22,11 @@
           animation: {
             glow: 'glow 6s ease-in-out infinite',
             float: 'float 8s ease-in-out infinite'
+          },
+          colors: {
+            logoPurple: '#A855F7',
+            logoTeal: '#14B8A6',
+            logoAccent: '#F472B6'
           }
         }
       }
@@ -33,9 +38,9 @@
 
     .mesh {
       background:
-        radial-gradient(circle at 10% 20%, rgba(139,92,246,0.18), transparent 40%),
-        radial-gradient(circle at 90% 10%, rgba(56,189,248,0.18), transparent 40%),
-        radial-gradient(circle at 50% 90%, rgba(16,185,129,0.12), transparent 45%);
+        radial-gradient(circle at 10% 20%, rgba(168,85,247,0.18), transparent 40%),
+        radial-gradient(circle at 90% 10%, rgba(20,184,166,0.18), transparent 40%),
+        radial-gradient(circle at 50% 90%, rgba(244,114,182,0.12), transparent 45%);
       animation: meshMove 22s ease-in-out infinite alternate;
     }
     @keyframes meshMove {
@@ -49,7 +54,7 @@
       border: 1px solid rgba(255,255,255,0.15);
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
-    .glass:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(139,92,246,0.3); }
+    .glass:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(168,85,247,0.3); }
 
     .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
     .reveal.active { opacity: 1; transform: translateY(0); }
@@ -58,16 +63,18 @@
     .arch-detail { opacity: 0; transform: translateY(10px); transition: all 0.4s ease; }
 
     .accent-purple { color: #A855F7; }
-    .accent-green { color: #10B981; }
+    .accent-teal { color: #14B8A6; }
+    .accent-pink { color: #F472B6; }
 
+    .logo-img { height: 48px; width: auto; }
   </style>
 </head>
 
 <body class="bg-[#05070f] text-white mesh">
 
 <header class="fixed w-full z-50">
-  <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between">
-    <span class="font-bold">Call-e</span>
+  <nav class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <img src="https://github.com/Call-e-ai/call-e-website/blob/main/Call-e%20Logo.png?raw=true" alt="Call-e Logo" class="logo-img" />
     <div class="hidden md:flex gap-8 text-sm text-gray-300">
       <a href="#architecture">Architecture</a>
       <a href="#cases">Case Studies</a>
@@ -80,10 +87,15 @@
 
 <section class="min-h-screen flex items-center pt-32">
   <div class="max-w-6xl mx-auto px-6 text-center reveal">
-    <h1 class="text-6xl font-extrabold">AI Voice Infrastructure<br/>That Replaces Manual Calling</h1>
-    <p class="mt-8 text-gray-300 max-w-2xl mx-auto">Enterprise-grade autonomous voice AI that handles calls, ensures compliance, and delivers measurable business outcomes.</p>
+    <h1 class="text-6xl font-extrabold">
+      AI Voice Infrastructure<br/>
+      That Replaces Manual Calling
+    </h1>
+    <p class="mt-8 text-gray-300 max-w-2xl mx-auto">
+      Enterprise-grade autonomous voice AI that handles calls, ensures compliance, and delivers measurable business outcomes.
+    </p>
     <div class="mt-10 flex justify-center gap-4">
-      <a href="#demo" class="px-8 py-4 rounded-xl bg-white text-black font-semibold">Book Demo</a>
+      <a href="#demo" class="px-8 py-4 rounded-xl bg-gradient-to-r from-logoPurple to-logoTeal text-black font-semibold hover:from-logoTeal hover:to-logoPurple transition-all">Book Demo</a>
       <a href="#architecture" class="px-8 py-4 rounded-xl glass">See Architecture</a>
     </div>
   </div>
@@ -96,19 +108,27 @@
     <div class="grid md:grid-cols-4 gap-10 text-center">
       <div class="glass p-8 rounded-3xl arch reveal">
         <h3 class="accent-purple font-semibold mb-2">Call Initiation</h3>
-        <div class="arch-detail mt-4 text-gray-300">Inbound or outbound calls seamlessly routed via existing telephony or SIP integrations.</div>
+        <div class="arch-detail mt-4 text-gray-300">
+          Seamlessly routes inbound/outbound calls through your telephony stack.
+        </div>
       </div>
       <div class="glass p-8 rounded-3xl arch reveal">
         <h3 class="accent-purple font-semibold mb-2">Conversation Engine</h3>
-        <div class="arch-detail mt-4 text-gray-300">Real-time speech-to-intent, contextual memory, and adaptive dialogue for consistent engagement.</div>
+        <div class="arch-detail mt-4 text-gray-300">
+          Real-time speech-to-intent with long-term memory and context awareness.
+        </div>
       </div>
       <div class="glass p-8 rounded-3xl arch reveal">
         <h3 class="accent-purple font-semibold mb-2">Policy & Decision Layer</h3>
-        <div class="arch-detail mt-4 text-gray-300">Custom rules, compliance logic, and escalation paths enforce safe and predictable interactions.</div>
+        <div class="arch-detail mt-4 text-gray-300">
+          Enforces custom rules, compliance, and automated escalation paths.
+        </div>
       </div>
       <div class="glass p-8 rounded-3xl arch reveal">
         <h3 class="accent-purple font-semibold mb-2">Outcomes & Insight</h3>
-        <div class="arch-detail mt-4 text-gray-300">Automated analytics, resolution confidence scores, and next-best actions for teams and management.</div>
+        <div class="arch-detail mt-4 text-gray-300">
+          Tracks resolution confidence, next actions, and analytics for teams.
+        </div>
       </div>
     </div>
   </div>
@@ -117,9 +137,9 @@
 <!-- METRICS -->
 <section id="metrics" class="py-40">
   <div class="max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-12 text-center reveal">
-    <div><p class="text-5xl font-bold accent-green">1M+</p><p class="text-gray-300 mt-2">Calls handled</p></div>
-    <div><p class="text-5xl font-bold accent-green">92%</p><p class="text-gray-300 mt-2">Resolution rate</p></div>
-    <div><p class="text-5xl font-bold accent-green">65%</p><p class="text-gray-300 mt-2">Cost reduction</p></div>
+    <div><p class="text-5xl font-bold accent-teal">1M+</p><p class="text-gray-300 mt-2">Calls handled</p></div>
+    <div><p class="text-5xl font-bold accent-teal">92%</p><p class="text-gray-300 mt-2">Resolution rate</p></div>
+    <div><p class="text-5xl font-bold accent-teal">65%</p><p class="text-gray-300 mt-2">Cost reduction</p></div>
   </div>
 </section>
 
@@ -130,11 +150,11 @@
     <div class="grid md:grid-cols-3 gap-10">
       <div class="glass p-10 rounded-3xl reveal">
         <h3 class="font-semibold mb-2 accent-purple">Collections</h3>
-        <p class="text-gray-300">Automated debtor engagement at scale, reducing manual intervention while ensuring compliance with policies.</p>
+        <p class="text-gray-300">Automated debtor engagement at scale, reducing manual work while ensuring compliance.</p>
       </div>
       <div class="glass p-10 rounded-3xl reveal">
         <h3 class="font-semibold mb-2 accent-purple">Enterprise Sales</h3>
-        <p class="text-gray-300">Qualification, follow-ups, and pipeline nurturing without SDR overhead, powered by autonomous calls.</p>
+        <p class="text-gray-300">Qualification, follow-ups, and pipeline nurturing without SDR overhead.</p>
       </div>
       <div class="glass p-10 rounded-3xl reveal">
         <h3 class="font-semibold mb-2 accent-purple">Public Sector</h3>
@@ -148,12 +168,14 @@
 <section id="demo" class="py-40">
   <div class="max-w-xl mx-auto px-6 glass rounded-3xl p-12 reveal">
     <h2 class="text-3xl font-bold mb-6">Request a Live Demo</h2>
-    <p class="text-gray-300 mb-8">See Call-e in action and understand how autonomous AI calling transforms operations.</p>
+    <p class="text-gray-300 mb-8">
+      See Call-e in action and understand how autonomous AI calling transforms operations.
+    </p>
     <form action="https://formspree.io/f/mpqqnlbw" method="POST" class="space-y-6">
       <input class="w-full px-4 py-3 rounded-xl bg-black/30 border border-white/10" name="name" placeholder="Full Name" required />
       <input class="w-full px-4 py-3 rounded-xl bg-black/30 border border-white/10" type="email" name="email" placeholder="Work Email" required />
       <textarea class="w-full px-4 py-3 rounded-xl bg-black/30 border border-white/10" name="message" rows="4" placeholder="Describe your call volumes"></textarea>
-      <button class="w-full py-4 rounded-xl bg-gradient-to-r from-purple-500 to-cyan-400 font-semibold hover:from-cyan-400 hover:to-purple-500 transition-all">Book Demo</button>
+      <button class="w-full py-4 rounded-xl bg-gradient-to-r from-logoPurple to-logoTeal font-semibold hover:from-logoTeal hover:to-logoPurple transition-all">Book Demo</button>
     </form>
   </div>
 </section>
